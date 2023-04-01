@@ -62,6 +62,9 @@ def save_file():
 	if(file_name == ""):
 		file_name = typed_ip
 	print(typed_ip, typed_user, typed_password)
+True_file = file.open(file_name, "w")
+True_file.writelines([typed_ip, typed_user, typed_password])
+True_file.close()
 	print(file_name)
 	
 
