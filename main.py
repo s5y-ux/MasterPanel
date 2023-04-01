@@ -4,6 +4,7 @@ from tkinter import simpledialog
 import time
 from paramiko import SSHClient
 from scp import SCPClient
+import subprocess
 
 import os
 win = Tk() 
@@ -61,11 +62,11 @@ def save_file():
 	file_name = simpledialog.askstring("New File", "Enter New File Name:")
 	if(file_name == ""):
 		file_name = typed_ip
-	print(typed_ip, typed_user, typed_password)
-True_file = file.open(file_name, "w")
-True_file.writelines([typed_ip, typed_user, typed_password])
-True_file.close()
-	print(file_name)
+	subprocess.run(['touch', '{0}'.format(file_name)])
+	file = open(file_name, "w")
+	file.writelines(["{0}\n".format(typed_ip), "{0}\n".format(typed_user), "{0}\n".format(typed_password)])
+	file.close()
+
 	
 
 file_save = Button(win, text="Save File", command = save_file)
