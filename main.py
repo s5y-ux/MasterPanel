@@ -11,6 +11,9 @@ import subprocess
 if_File = False
 
 def scan():
+    scan = Tk()
+    scan.title("IP Scan")
+    scan.geometry("150x100")
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     pattern = r".lan"
@@ -36,8 +39,25 @@ def scan():
             IP_Address_Final = list(IP_Address[1].split(")"))
             objects.append([nmap_scan[count][0:len(nmap_scan[count])-4], IP_Address_Final[0]])
     print(objects)
-
     s.close()
+    OPTIONS =list()
+    for count in range(len(objects)):
+        OPTIONS.append(objects[count][0])
+
+    variable = StringVar(scan)
+    variable.set(OPTIONS[0]) # default value
+
+    w = OptionMenu(scan, variable, *OPTIONS)
+    w.pack()
+    def ok():
+        for count in range(len(objects)):
+            if(objects[count][0] == variable.get()):
+                replacer(Ip_Address_Entry, objects[count][1])
+                break
+
+    button = Button(scan, text="OK", command=ok)
+    button.pack()
+
 
 def btn_clicked():
     print("Feature not added yet")
@@ -100,7 +120,7 @@ def fire():
 if __name__ == '__main__':
 
     window = Tk()
-
+    window.title("MasterPannel")
     window.geometry("800x500")
     window.configure(bg = "#ffffff")
     canvas = Canvas(
