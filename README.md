@@ -3,7 +3,9 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 # MasterPannel
-Software used for remote file management using protocols SSH and SFTP. Files are securely transferred, copied, and received with all bits of sensitive information secured and encrypted. Features a LAN IP scanner so you can find your computers more easily on a LAN and a client is added for ease of setup on remote computers. You can also recursively deploy files on separate computers and upload multiple files at once. You can save computer information so you don't have to type in the IP, Username, and Password every time like in the CLI.
+MasterPannel is a powerful program designed to help users manage files remotely using SFTP and SSH protocols. With this program, users can securely connect to and manage files on remote computers from anywhere in the world. One of the key features of MasterPannel is its strong focus on security. The program uses state-of-the-art encryption technology to protect user data and prevent unauthorized access.
+
+Another notable feature of MasterPannel is its built-in IP scanner. This tool allows users to quickly scan their local network for connected computers, making it easy to identify and connect to remote computers without having to manually enter their IP addresses. Additionally, MasterPannel automatically remembers remote computer information, so users can quickly and easily reconnect to previously accessed machines with just a few clicks. This feature is particularly useful for users who frequently work with multiple remote computers or servers.
 ## Screenshots
 
 ![App Screenshot](https://user-images.githubusercontent.com/59636597/230281149-6b8b58da-1514-4a95-beca-923ed0313777.png)
