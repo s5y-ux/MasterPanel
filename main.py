@@ -8,39 +8,94 @@ from paramiko import SSHClient
 from scp import SCPClient
 import subprocess
 
+#Used as a global variable to determine if the data being copied is a directory or file.
 if_File = False
 
+#Function used for the IP scanner
 def scan():
+	#Opens a new tkinter window for the IP scan
     scan = Tk()
+
+    #Sets the title of the window for the IP scan
     scan.title("IP Scan")
+
+    #Sets the demensions of the window for the IP scan
     scan.geometry("150x100")
+
+    #Uses socket (Low level network programming for finding local IPV4 address)
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #checking routing tables and local interfaces in order to decide which IP address 
+    #to use as source in case one would actually use the socket to send data.
     s.connect(("8.8.8.8", 80))
+    
+    #Setting pattern for meta programming when we pipe the NMAP scan to resolve IP addresses
+    #and hostnames
     pattern = r".lan"
 
+    #Will absolutley come back to this algorithm
     Local_Ip_Address = list(s.getsockname()[0].split("."))
     Local_Ip_Address.pop(len(Local_Ip_Address)-1)
     Local_Ip_Address.append("0")
+    '''
+    |
+    V
+
+    Step 1: 	Gets local IP address and splits it into a list EX: 192.168.1.10 => [192, 168, 1, 10]
+	Step 2: 	Gets rid of the last index [192, 168, 1, 10] => [192, 168, 1]
+	Setp 3:		Appends 0, [192, 168, 1] => [192, 168, 1, 0] 
+    '''
+
+    #Used to store total IP
     concatinate = ""
+
+    #Will absolutley come back to this algorithm
     for count in range(len(Local_Ip_Address)):
         if(count != len(Local_Ip_Address)-1):
             concatinate += Local_Ip_Address[count] + "."
         else:
             concatinate += Local_Ip_Address[count]
+    '''
+    |
+    V
 
+    Note: Refers local IP address List (refer to above algorithm)
+    
+    Step 1: 	Through every element but the last, concatinates it to empty string with "." 
+	Step 2: 	appends last element giving us "192.168.1.0" now we can perform an IP scan
+	on the local area network.
+    '''
+
+    #Performs scan through subprocess and outputs the entire scan to recaller as string
     recaller = subprocess.run(['nmap', '-sn', '{0}/24'.format(concatinate)], check=True, capture_output=True)
+    
+    #Creates a list with all of the information split at the spaces
     nmap_scan = list(recaller.stdout.decode('utf-8').split(" "))
 
-    objects = []
+    #Used to store a list with all of our IP addresses and hostnames from the IP scan
+    objects = list()
 
+    #Iterates through our entire Nmap scan list
+    #Will absolutley come back to this algorithm
     for count in range(len(nmap_scan)):
+    	
+    	#Remember when I created the meta pattern for later in the program? ;)
         if(re.search(pattern, nmap_scan[count])):
+        	
+        	#increments the index by 1 (refering to the hostname first) to get the IP address
+        	#From the Nmap scan and splits it at the () to isolate the IP address.
             IP_Address = list(nmap_scan[count+1].split("("))
             IP_Address_Final = list(IP_Address[1].split(")"))
+
+            #Appends the hostname and IP address to objects list
             objects.append([nmap_scan[count][0:len(nmap_scan[count])-4], IP_Address_Final[0]])
-    print(objects)
+    
+    #Closes the socket but this entire function can be programmed better
     s.close()
-    OPTIONS =list()
+
+    #Creates an option to select our host to upload file to
+    OPTIONS = list()
+
+    #Iterates through out list of IP addresses and hostnames
     for count in range(len(objects)):
         OPTIONS.append(objects[count][0])
 
