@@ -233,7 +233,7 @@ def arm_directory():
     #Sets to "Directory mode" by setting this variable to false
     is_File = False
 
-
+#Used to arm files
 def arm():
     global path
     global is_File
