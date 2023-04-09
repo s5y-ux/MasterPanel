@@ -235,9 +235,17 @@ def arm_directory():
 
 #Used to arm files
 def arm():
+
+				#References global path string
     global path
+
+				#References is_file for letting program know we are copying a file
     global is_File
+
+				#Sets path to file as openfile
     path = filedialog.askopenfile(title="Select file",filetypes=(("txt files", "*.txt"),("all files", "*.*")))
+
+				#Splits the string stored
     recaller = list(path.name.split("/"))
     canvas.itemconfigure(File_Name_Holer, text=recaller[-1])
     is_File = True
