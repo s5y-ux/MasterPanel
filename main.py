@@ -261,7 +261,8 @@ def fire():
     #"pulling back chamber"
     ssh.load_system_host_keys()
 
-#    ssh.connect("{0}".format(Ip_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
+#loading bullet i.e drawing information from entry
+ssh.connect("{0}".format(Ip_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
      
     scp = SCPClient(ssh.get_transport())
      
