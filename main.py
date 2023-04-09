@@ -245,15 +245,23 @@ def arm():
 				#Sets path to file as openfile
     path = filedialog.askopenfile(title="Select file",filetypes=(("txt files", "*.txt"),("all files", "*.*")))
 
-				#Splits the string stored
+				#Splits the string stored at the forward slash
     recaller = list(path.name.split("/"))
     canvas.itemconfigure(File_Name_Holer, text=recaller[-1])
+
+    #sets the variable to is file for copying function
     is_File = True
 
+#Function used for actual copy function
 def fire():
+
+    #Establishes SSH object for client methods
     ssh = SSHClient()
+
+    #"pulling back chamber"
     ssh.load_system_host_keys()
-    ssh.connect("{0}".format(Ip_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
+
+#    ssh.connect("{0}".format(Ip_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
      
     scp = SCPClient(ssh.get_transport())
      
