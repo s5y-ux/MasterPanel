@@ -236,17 +236,19 @@ def arm_directory():
 #Used to arm files
 def arm():
 
-				#References global path string
+    #References global path string
     global path
 
-				#References is_file for letting program know we are copying a file
+    #References is_file for letting program know we are copying a file
     global is_File
 
-				#Sets path to file as openfile
+    #Sets path to file as openfile
     path = filedialog.askopenfile(title="Select file",filetypes=(("txt files", "*.txt"),("all files", "*.*")))
 
-				#Splits the string stored at the forward slash
+    #Splits the string stored at the forward slash
     recaller = list(path.name.split("/"))
+
+    #Replaces the text above the copy button with the name of the file
     canvas.itemconfigure(File_Name_Holer, text=recaller[-1])
 
     #sets the variable to is file for copying function
@@ -261,22 +263,34 @@ def fire():
     #"pulling back chamber"
     ssh.load_system_host_keys()
 
-#loading bullet i.e drawing information from entry
-ssh.connect("{0}".format(Ip_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
+    #loading bullet i.e drawing information from entry
+    ssh.connect("{0}".format(Ip_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
      
+    #Pushing back chamber
     scp = SCPClient(ssh.get_transport())
      
+    #Pulling trigger
     if(is_File):
         scp.put(path.name, recursive=True, remote_path='/home/{0}/Desktop'.format(Username_Entry.get()))
     else:
         scp.put(path, recursive=True, remote_path='/home/{0}/Desktop'.format(Username_Entry.get()))
 
+#Finally, the main body! Here we establish and pack all of our objects
 if __name__ == '__main__':
 
+    #Starts the main window, will be changing the variable name soon
     window = Tk()
+
+    #Sets the title at the top bar
     window.title("MasterPannel")
+
+    #Sets the window length and width
     window.geometry("800x500")
+
+    #Sets the background to all white
     window.configure(bg = "#ffffff")
+
+    #Creates the canvas in which we can place our tkinter objects
     canvas = Canvas(
         window,
         bg = "#ffffff",
@@ -285,26 +299,32 @@ if __name__ == '__main__':
         bd = 0,
         highlightthickness = 0,
         relief = "ridge")
+    
+    #Please keep in mind alot of this is generated in Proxlight so its neccassary to place the canvas (FIGMA 0, 0)
     canvas.place(x = 0, y = 0)
 
+    #Used to place the pretty background
     background_img = PhotoImage(file = f"background.png")
     background = canvas.create_image(
         669.0, 38.0,
         image=background_img)
 
+    #Image and code accossiated with the copy button
     img0 = PhotoImage(file = f"img0.png")
     Copy_Button = Button(
         image = img0,
         borderwidth = 0,
         highlightthickness = 0,
-        command = fire,
+        command = fire,     #Note the copy function
         relief = "flat")
 
+    #Places the button on the canvas
     Copy_Button.place(
         x = 583, y = 385,
         width = 146,
         height = 54)
 
+    #As you can imagine alot of the other code follows suit
     Ip_Address_Entry_img = PhotoImage(file = f"img_textBox0.png")
     Ip_Address_Entry_bg = canvas.create_image(
         235.0, 161.0,
@@ -425,5 +445,8 @@ if __name__ == '__main__':
         fill = "#0076e3",
         font = ("Ubuntu-Regular", 10))
 
+    #The window can't be resized because of the photo images
     window.resizable(False, False)
+
+    #The mainloop function for our master window
     window.mainloop()
