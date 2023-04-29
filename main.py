@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import filedialog 
+from tkinter import filedialog
 from tkinter import simpledialog
 import re
 import time
@@ -10,11 +10,11 @@ import subprocess
 
 '''
 Listen buddy, I got a few algorithms I gotta change up here and a few features to add.
-As a matter afact, I might have to change the entire UI up a bit so this project is going to take awhile.
+As a matter a fact, I might have to change the entire UI up a bit so this project is going to take awhile.
 
 Hmmm.
 
-But anyway, this was my main project over spring break and i'm pretty stoked to have got it up and running in the 
+But anyway, this was my main project over spring break and I'm pretty stoked to have got it up and running in the
 amount of time I had. So below is the WORKING code for an SCP interface that I personally use for my own file server
 
 Aren't I a spoiled brat
@@ -34,87 +34,87 @@ def scan():
     #Sets the title of the window for the IP scan
     scan.title("IP Scan")
 
-    #Sets the demensions of the window for the IP scan
+    #Sets the dimensions of the window for the IP scan
     scan.geometry("150x100")
 
     #Uses socket (Low level network programming for finding local IPV4 address)
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    #checking routing tables and local interfaces in order to decide which IP address 
+    #checking routing tables and local interfaces in order to decide which IP address
     #to use as source in case one would actually use the socket to send data.
     s.connect(("8.8.8.8", 80))
-    
+
     #Setting pattern for meta programming when we pipe the NMAP scan to resolve IP addresses
-    #and hostnames
+    #and host-names
     pattern = r".lan"
 
-    #Will absolutley come back to this algorithm
-    Local_Ip_Address = list(s.getsockname()[0].split("."))
-    Local_Ip_Address.pop(len(Local_Ip_Address)-1)
-    Local_Ip_Address.append("0")
+    #Will absolutely come back to this algorithm
+    Local_IP_Address = list(s.getsockname()[0].split("."))
+    Local_IP_Address.pop(len(Local_IP_Address)-1)
+    Local_IP_Address.append("0")
     '''
     |
     V
     Step 1:     Gets local IP address and splits it into a list EX: 192.168.1.10 => [192, 168, 1, 10]
     Step 2:     Gets rid of the last index [192, 168, 1, 10] => [192, 168, 1]
-    Setp 3:     Appends 0, [192, 168, 1] => [192, 168, 1, 0] 
+    Setp 3:     Appends 0, [192, 168, 1] => [192, 168, 1, 0]
     '''
 
     #Used to store total IP
-    concatinate = ""
+    concatenate = ""
 
-    #Will absolutley come back to this algorithm
-    for count in range(len(Local_Ip_Address)):
-        if(count != len(Local_Ip_Address)-1):
-            concatinate += Local_Ip_Address[count] + "."
+    #Will absolutely come back to this algorithm
+    for count in range(len(Local_IP_Address)):
+        if(count != len(Local_IP_Address)-1):
+            concatenate += Local_IP_Address[count] + "."
         else:
-            concatinate += Local_Ip_Address[count]
+            concatenate += Local_IP_Address[count]
     '''
     |
     V
     Note: Refers local IP address List (refer to above algorithm)
-    
-    Step 1:     Through every element but the last, concatinates it to empty string with "." 
+
+    Step 1:     Through every element but the last, concatenates it to empty string with "."
     Step 2:     appends last element giving us "192.168.1.0" now we can perform an IP scan
     on the local area network.
     '''
 
-    #Performs scan through subprocess and outputs the entire scan to recaller as string
-    recaller = subprocess.run(['nmap', '-sn', '{0}/24'.format(concatinate)], check=True, capture_output=True)
-    
-    #Creates a list with all of the information split at the spaces
-    nmap_scan = list(recaller.stdout.decode('utf-8').split(" "))
+    #Performs scan through sub-process and outputs the entire scan to caller as string
+    caller = subprocess.run(['nmap', '-sn', '{0}/24'.format(concatenate)], check=True, capture_output=True)
 
-    #Used to store a list with all of our IP addresses and hostnames from the IP scan
+    #Creates a list with all of the information split at the spaces
+    nmap_scan = list(caller.stdout.decode('utf-8').split(" "))
+
+    #Used to store a list with all of our IP addresses and host-names from the IP scan
     objects = list()
 
     #Iterates through our entire Nmap scan list
-    #Will absolutley come back to this algorithm
+    #Will absolutely come back to this algorithm
     for count in range(len(nmap_scan)):
-        
+
         #Remember when I created the meta pattern for later in the program? ;)
         if(re.search(pattern, nmap_scan[count])):
-            
-            #increments the index by 1 (refering to the hostname first) to get the IP address
+
+            #increments the index by 1 (referring to the host-name first) to get the IP address
             #From the Nmap scan and splits it at the () to isolate the IP address.
             IP_Address = list(nmap_scan[count+1].split("("))
             IP_Address_Final = list(IP_Address[1].split(")"))
 
-            #Appends the hostname and IP address to objects list
+            #Appends the host-name and IP address to objects list
             objects.append([nmap_scan[count][0:len(nmap_scan[count])-4], IP_Address_Final[0]])
-    
+
     #Closes the socket but this entire function can be programmed better
     s.close()
 
     #Creates an option to select our host to upload file to
     OPTIONS = list()
 
-    #Iterates through out list of IP addresses and hostnames
+    #Iterates through out list of IP addresses and host-names
     for count in range(len(objects)):
 
         #Appends the hosts and IP's to the menu on tkinter
-        OPTIONS.append(objects[count][0]) 
+        OPTIONS.append(objects[count][0])
 
-    #From here on out in the function is the tkinter objects. This is so we can set a text value and retrieve it later 
+    #From here on out in the function is the tkinter objects. This is so we can set a text value and retrieve it later
     variable = StringVar(scan)
 
     #Setting the default value to the first element in OPTIONS
@@ -132,11 +132,11 @@ def scan():
         #Iterates through the objects lists to match our selection
         for count in range(len(objects)):
 
-            #Checks to see if out hostnames match
+            #Checks to see if out host-names match
             if(objects[count][0] == variable.get()):
 
                 #If they do, we call the replacer function (The next function in the code)
-                replacer(Ip_Address_Entry, objects[count][1])
+                replacer(IP_Address_Entry, objects[count][1])
                 break
 
     #Creating the button in scan
@@ -161,28 +161,28 @@ def save_file():
     typed_user = Username_Entry.get()
 
     #Stores the IP data
-    typed_ip = Ip_Address_Entry.get()
+    typed_IP = IP_Address_Entry.get()
 
     #Stores the Password data
     typed_password = Password_Entry.get()
 
-    #Prompts for the name of the file to store the computer data to 
+    #Prompts for the name of the file to store the computer data to
     file_name = simpledialog.askstring("New File", "Enter New File Name:")
 
-    #If there is no name enterd in the ip
+    #If there is no name entered in the IP
     if(file_name == ""):
 
         #It will save the file as the computers IP address
-        file_name = typed_ip
+        file_name = typed_IP
 
-    #After the prompt, we use the subprocess library to create the file in the MasterPannel Directory
+    #After the prompt, we use the subprocess library to create the file in the MasterPanel Directory
     subprocess.run(['touch', '{0}'.format(file_name)])
 
     #Need to change with a "with" statement, but this opens the file
     file = open(file_name, "w")
 
-    #And writes the data stored in the entry objects 
-    file.writelines(["{0}\n".format(typed_ip), "{0}\n".format(typed_user), "{0}\n".format(typed_password)])
+    #And writes the data stored in the entry objects
+    file.writelines(["{0}\n".format(typed_IP), "{0}\n".format(typed_user), "{0}\n".format(typed_password)])
 
     #And then closes the file
     file.close()
@@ -198,19 +198,19 @@ def load_file():
     file = open(path_to_load.name, "r")
 
     #Used to reference data stored on file
-    referencer = file.readlines()
+    caller = file.readlines()
 
     #Gets rid of the newline
-    referencer = [sub[:-1] for sub in referencer]
+    caller = [sub[:-1] for sub in caller]
 
     #Stores the objects in a list so we can loop through it and replace the values with the values stored in the file
-    object_referencer = [Ip_Address_Entry, Username_Entry, Password_Entry]
+    object_caller = [IP_Address_Entry, Username_Entry, Password_Entry]
 
     #Iteration through the objects
-    for count in range(len(referencer)):
+    for count in range(len(caller)):
 
         #Replaces the entry with the data in the file
-        replacer(object_referencer[count], referencer[count])
+        replacer(object_caller[count], caller[count])
 
 #Used to arm the program with a directory to copy
 def arm_directory():
@@ -218,17 +218,17 @@ def arm_directory():
     #References variable path as global
     global path
 
-    #Remember at the beginning of the program? Here it is 
+    #Remember at the beginning of the program? Here it is
     global is_File
 
     #Asks for directory to copy
     path = filedialog.askdirectory()
 
     #Used to isolate the name of the directory
-    recaller = list(path.split("/"))
+    caller = list(path.split("/"))
 
     #Replaces the text above the copy button with the name of the directory
-    canvas.itemconfigure(File_Name_Holer, text=recaller[-1])
+    canvas.itemconfigure(File_Name_Holder, text=caller[-1])
 
     #Sets to "Directory mode" by setting this variable to false
     is_File = False
@@ -246,10 +246,10 @@ def arm():
     path = filedialog.askopenfile(title="Select file",filetypes=(("txt files", "*.txt"),("all files", "*.*")))
 
     #Splits the string stored at the forward slash
-    recaller = list(path.name.split("/"))
+    caller = list(path.name.split("/"))
 
     #Replaces the text above the copy button with the name of the file
-    canvas.itemconfigure(File_Name_Holer, text=recaller[-1])
+    canvas.itemconfigure(File_Name_Holder, text=caller[-1])
 
     #sets the variable to is file for copying function
     is_File = True
@@ -264,11 +264,11 @@ def fire():
     ssh.load_system_host_keys()
 
     #loading bullet i.e drawing information from entry
-    ssh.connect("{0}".format(Ip_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
-     
+    ssh.connect("{0}".format(IP_Address_Entry.get()), username=Username_Entry.get(), password=Password_Entry.get())
+
     #Pushing back chamber
     scp = SCPClient(ssh.get_transport())
-     
+
     #Pulling trigger
     if(is_File):
         scp.put(path.name, recursive=True, remote_path='/home/{0}/Desktop'.format(Username_Entry.get()))
@@ -282,7 +282,7 @@ if __name__ == '__main__':
     window = Tk()
 
     #Sets the title at the top bar
-    window.title("MasterPannel")
+    window.title("MasterPanel")
 
     #Sets the window length and width
     window.geometry("800x500")
@@ -299,8 +299,8 @@ if __name__ == '__main__':
         bd = 0,
         highlightthickness = 0,
         relief = "ridge")
-    
-    #Please keep in mind alot of this is generated in Proxlight so its neccassary to place the canvas (FIGMA 0, 0)
+
+    #Please keep in mind a-lot of this is generated in Proxlight so its necessary to place the canvas (FIGMA 0, 0)
     canvas.place(x = 0, y = 0)
 
     #Used to place the pretty background
@@ -309,7 +309,7 @@ if __name__ == '__main__':
         669.0, 38.0,
         image=background_img)
 
-    #Image and code accossiated with the copy button
+    #Image and code for the copy button
     img0 = PhotoImage(file = f"img0.png")
     Copy_Button = Button(
         image = img0,
@@ -325,18 +325,18 @@ if __name__ == '__main__':
         height = 54)
 
     #As you can imagine alot of the other code follows suit
-    Ip_Address_Entry_img = PhotoImage(file = f"img_textBox0.png")
-    Ip_Address_Entry_bg = canvas.create_image(
+    IP_Address_Entry_img = PhotoImage(file = f"img_textBox0.png")
+    IP_Address_Entry_bg = canvas.create_image(
         235.0, 161.0,
-        image = Ip_Address_Entry_img)
+        image = IP_Address_Entry_img)
 
-    Ip_Address_Entry = Entry(
+    IP_Address_Entry = Entry(
         bd = 0,
         bg = "#ffffff",
         fg = "#4287f5",
         highlightthickness = 0)
 
-    Ip_Address_Entry.place(
+    IP_Address_Entry.place(
         x = 132.0, y = 147,
         width = 206.0,
         height = 28)
@@ -439,7 +439,7 @@ if __name__ == '__main__':
         width = 108,
         height = 30)
 
-    File_Name_Holer=canvas.create_text(
+    File_Name_Holder=canvas.create_text(
         656.0, 360.5,
         text = "[File Path]",
         fill = "#0076e3",
