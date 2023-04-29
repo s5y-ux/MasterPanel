@@ -1,6 +1,7 @@
 ![Logo](https://user-images.githubusercontent.com/59636597/235286705-2447dee7-bcde-4466-aa59-056a9e62c332.png)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+![example workflow](https://github.com/s5y-ux/MasterPanel/actions/workflows/main.yml/badge.svg)
 # MasterPanel
 MasterPanel is a powerful program designed to help users manage files remotely using SFTP and SSH protocols. With this program, users can securely connect to and manage files on remote computers from anywhere in the world. One of the key features of MasterPanel is its strong focus on security. The program uses state-of-the-art encryption technology to protect user data and prevent unauthorized access.
 
