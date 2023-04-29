@@ -1,5 +1,4 @@
-
-![Logo](https://user-images.githubusercontent.com/59636597/230280708-7cdb4a83-495f-4296-b0a0-ce87f5685632.png)
+![Logo](https://user-images.githubusercontent.com/59636597/235286705-2447dee7-bcde-4466-aa59-056a9e62c332.png)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 # MasterPanel
