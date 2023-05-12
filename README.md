@@ -14,7 +14,7 @@ Another notable feature of MasterPanel is its built-in IP scanner. This tool all
 Download dependencies:
 
 ```bash
-  sudo install nmap
+  sudo apt install nmap
 
   pip install tk
 
